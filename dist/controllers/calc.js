@@ -1,0 +1,1 @@
+"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{"default":e}}var _add=require("../models/add.js"),_add2=_interopRequireDefault(_add);console.log((0,_add2["default"])(1,2));

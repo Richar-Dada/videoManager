@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/bowersrc/bootstrap/dist/css/bootstrap.min.css">
+
+</head>
+<body  >
+<div class="container" >
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3" style="margin-top: 20px;" >
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                <span class="panel-title">
+                    用户登录
+                </span>
+                </div>
+                <div class="panel-body">
+                    <form action="/account/login" class="form-horizontal" method="post">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">用户名：
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" required placeholder="请输入用户名" name="uname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">密码：
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" required placeholder="请输入密码"  name="upwd">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">验证码：
+                            </label>
+                            <div class="col-sm-4">
+                                <input type="password" class="form-control" required placeholder="请输入验证码"  name="vcode">
+                            </div>
+                            <div class="col-sm-2">
+                                <img src="/account/getVcode" alt="" id="vcodeImg" style="cursor:pointer;"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="submit" value="登录">
+                                <input type="button" value="注册" onclick='window.location="/account/register"'>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    window.onload = function(){
+        var vcodeImg = document.getElementById('vcodeImg');
+        vcodeImg.onclick = function(){
+            vcodeImg.src = '/account/getVcode?rid' + Math.random();
+        }
+    }
+</script>

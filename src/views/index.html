@@ -1,0 +1,65 @@
+{{extend ("./layout.html")}}
+
+{{#block ("head")}}
+
+{{/block}}
+
+{{#block ("body")}}
+
+<div class="panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            学习资源管理
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <form method="post">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <div class="input-group-addon">名称：</div>
+                        <input type="text" class="form-control" name="vname" placeholder="请输入视频名称" value="{{ vname }}" >
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-success" id="query" >查找</button>
+                </div>
+                <div class="col-md-6 col-md-offset-1">
+                    <button type="button" class="btn btn-success" onclick="window.location='/admin/add'"> 添加 </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <tr>
+        <th>编号</th>
+        <th>视频名称</th>
+        <th>类型</th>
+        <th>关键字</th>
+        <th>路径</th>
+        <th>操作</th>
+    </tr>
+
+    {{#each(data)~}}
+    <tr>
+        <td>{{ xindex + 1 }}</td>
+        <td>{{ this.name }}</td>
+        <td>{{ this.scope }}</td>
+        <td>{{ this.keyword }}</td>
+        <td>{{ this.filepath }}</td>
+        <td>
+            <a href="/admin/upload/{{ this._id }}" class="btn btn-primary btn-sm">上传视频</a> |
+            <a href="/admin/edit" class="btn btn-info btn-sm">编辑</a> |
+            <a href="/admin/del/{{ this._id }}" class="btn btn-danger btn-sm">删除</a> |
+            <a href="/play/{{ this._id }}" class="btn btn-success btn-sm">播放</a>
+        </td>
+    </tr>
+
+    {{~/each}}
+
+</table>
+
+{{/block}}
