@@ -49,10 +49,10 @@ app.use('/',videoRouter);
 //admin是管理员才能访问的，当访问admin页面时应该作权限判断
 //如果他有登录才能去admin页面
 app.all('/admin/*',(req,res,next)=>{
-    //if(req.session.uname){
+    if(req.session.uname){
         next();
-    //}
-    //res.end('<script>alert("请先登录");window.location = "/account/login"</script>');
+    }
+    res.end('<script>alert("请先登录");window.location = "/account/login"</script>');
 });
 
 //admin路由器，处理来自admin的页面
