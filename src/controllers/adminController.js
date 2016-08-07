@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const mongoose = require('mongoose');
+const formidable = require('formidable');
 let model = mongoose.model('video');
 
 //响应/admin/list
@@ -140,12 +141,74 @@ exports.editPost = (req,res)=>{
 };
 
 //响应/admin/upload
-exports.upload = (req,res)=>{
 
+exports.upload = (req,res)=>{
+	let form = new formidable.IncomingForm();
     //通过fomidable中间件获取上传的文件
+	form.uploadDir = path.join(__dirname,"../static/upload");
+	form.keepExtensions = true;
+
+	//文件上传，文件不能播放，需要把文件设成不能播放
+	model.update({id:req.body.id},{__v:0},(err)=>{
+		if(err){
+			console.log(err);
+			res.end(err);
+			return;
+		}
+	});
+
     form.parse(req, function(err, fields, files) {
-        res.writeHead(200, {'content-type': 'text/plain'});
-        res.write('received upload:\n\n');
-        res.end(util.inspect({fields: fields, files: files}));
+		if(err){
+			console.log(err);
+			res.end('文件上传失败');
+			return;
+		}
+        //不是mp4文件，使用ffmpeg进行转码
+        if(files.mp4file.type != 'video/mp4'){
+            let soucePath = files.mp4file.path;
+            let destPath = files.mp4file.path + '.mp4';
+            let ffmpeg = require('fluent-ffmpeg');
+            ffmpeg(soucePath)
+                .size('60%')
+                .on('error', function(err) {
+                    console.log('An error occurred: ' + err.message);
+					res.end(err.toString());
+					return;
+                })
+                .on('end', function() {
+                    console.log('Processing finished !');
+					//记录视频文件的id，用来更新数据库信息
+					let where = {_id :fields.id};
+					//把视频文件路径名更新到数据库中
+					model.update(where,{__v:1,filepath:path.basename(destPath)},(err)=>{
+						if(err){
+							console.log(err);
+							res.end(res);
+							return;
+						}
+						res.end('<script>alert("视频上传成功");window.location = "/admin/list"</script>');
+					});
+					//把源文件删除
+					let fs = require('fs');
+					fs.unlink(soucePath,(err)=>{
+						console.log('移除了源文件');
+					});
+                })
+                .save(destPath);
+		}else{
+            //记录视频文件的id，用来更新数据库信息
+            let where = {_id :fields.id};
+            //把视频文件路径名更新到数据库中
+            model.update(where,{__v:1,filepath:path.basename(files.mp4file.path)},(err)=>{
+                if(err){
+                    console.log(err);
+                    res.end(res);
+                    return;
+                }
+                res.end('<script>alert("视频上传成功");window.location = "/admin/list"</script>');
+            });
+        }
+
+
     });
 };

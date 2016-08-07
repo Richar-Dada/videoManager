@@ -38,10 +38,13 @@ app.use(express.static(path.join(__dirname,'public')));
 //调用路由前，要先引入数据目录，这样路由的controllers才能操作数据
 require('./models/userModel.js');
 require('./models/adminModel.js');
+require('./models/videoModel.js');
 
 //account路由，处理来自account的页面
 var accountRouter = require('./routers/accountRouter.js');
+var videoRouter = require('./routers/videoRouter.js');
 app.use('/account',accountRouter);
+app.use('/',videoRouter);
 
 //admin是管理员才能访问的，当访问admin页面时应该作权限判断
 //如果他有登录才能去admin页面

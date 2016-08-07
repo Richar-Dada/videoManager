@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> {{ title }}</title>
+    <link rel="stylesheet" href="/statics/css/site.css">
+    <link rel="stylesheet" href="/bowersrc/bootstrap/dist/css/bootstrap.css">
+    <script src='/bowersrc/jquery/dist/jquery.js'></script>
+
+    <script>
+        $(function(){
+
+            //将内容转换成为一个正常的html,填充到div中
+            var content = '{{content}}';
+            var res = $('<span/>').html(content).text();
+            $("#content").html(res);
+
+        })
+    </script>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-default" style="height: 50px;background-color: #2aabd2;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="color: #ffffff;">
+                    欢迎进入视频点播网
+                </a>
+            </div>
+        </div>
+
+    </nav>
+
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <video src="/upload/{{ filepath }}" autoplay='autoplay' controls= 'controls'></video>
+        </div>
+        <div id="content" class="col-md-3">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
