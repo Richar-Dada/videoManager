@@ -1,7 +1,7 @@
 {{extend ("./layout.html")}}
 
 {{#block ("head")}}
-
+<script src="../bowersrc/bootstrap/dist/js/bootstrap.min.js"></script>
 {{/block}}
 
 {{#block ("body")}}
@@ -51,8 +51,8 @@
         <td>{{ this.keyword }}</td>
         <td>{{ this.filepath }}</td>
         <td>
-            <a href="/admin/upload/{{ this._id }}" class="btn btn-primary btn-sm">上传视频</a> |
-            <a href="/admin/edit" class="btn btn-info btn-sm">编辑</a> |
+            <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">上传视频</a> |
+            <a href="/admin/edit/{{this._id}}" class="btn btn-info btn-sm">编辑</a> |
             <a href="/admin/del/{{ this._id }}" class="btn btn-danger btn-sm">删除</a> |
             <a href="/play/{{ this._id }}" class="btn btn-success btn-sm">播放</a>
         </td>
@@ -60,6 +60,35 @@
 
     {{~/each}}
 
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">上传视频</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="/admin/upload">
+                        <input type="file" />
+                        <input type="submit" id="fileInput" style="display: none"/>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="uploadBtn">上传</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </table>
 
 {{/block}}
+
+<script>
+    $(function(){
+        $('#uploadBtn').click(function(){
+            $('#fileInput').click();
+        });
+    })
+</script>

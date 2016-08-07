@@ -12,7 +12,8 @@ router.post('/list',adminController.search);
 router.get('/add',adminController.addGet);
 router.post('/add',adminController.addPost);
 router.get('/del/:id',adminController.del);
-router.get('/edit',adminController.editGet);
-
+router.get('/edit/:id',adminController.editGet);
+router.post('/edit',adminController.editPost);
+router.post('/upload',adminController.upload);
 
 module.exports = router;

@@ -1,5 +1,7 @@
 (function(){
 
+var _callback = '';
+
 // editor.js
 UEDITOR_CONFIG = window.UEDITOR_CONFIG || {};
 
@@ -20005,7 +20007,9 @@ UE.ui = baidu.editor.ui = {};
      *  UE.getEditor('containerId'); //返回刚创建的实例
      *
      */
-    UE.getEditor = function (id, opt) {
+    UE.getEditor = function (id, opt,callback) {
+        _callback = callback;
+        console.log(_callback);
         var editor = instances[id];
         if (!editor) {
             editor = instances[id] = new UE.ui.Editor(opt);
@@ -20050,6 +20054,7 @@ UE.registerUI('message', function(editor) {
         updateHolderPos();
         setTimeout(function(){
             updateHolderPos();
+            _callback();
         }, 500);
     });
 

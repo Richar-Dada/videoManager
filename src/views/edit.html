@@ -1,0 +1,73 @@
+{{extend ("./layout.html")}}
+
+{{#block ("head")}}
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.js"> </script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"> </script>
+
+{{/block}}
+
+{{#block ("body")}}
+<div class="panel panel-default " role="document" >
+
+    <form id="f1" action="/admin/edit" class="form-horizontal" method="post">
+        <div class="panel-heading">
+
+            <h4 class="panel-title" id="gridSystemModalLabel">修改视频</h4>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">名称:
+                </label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="name" placeholder="请输入视频名称"  value="{{data.name}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">类型:
+                </label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="请输入类别"  name="scope" value="{{data.scope}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">关键字：
+                </label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="请输入关键字"  name="keyword" value="{{data.keyword}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">视频说明：
+                </label>
+                <div class="col-sm-6">
+                    <script id="editor" type="text/plain" style="width:600px;height:300px;"></script>
+                    <script>
+                        var ue = UE.getEditor('editor',{},function(){
+                            var content = '{{data.content}}';
+                            var value = $('<span>').html(content).text();
+                            console.log(value);
+                            UE.getEditor('editor').execCommand('insertHtml', value);
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">说明：
+                </label>
+                <div class="col-sm-6">
+
+                    <button type="submit" class="btn btn-primary" >保存</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location='/admin/list'" >返回</button>
+
+                </div>
+            </div>
+
+        </div>
+
+
+</form>
+</div>
+{{/block}}
